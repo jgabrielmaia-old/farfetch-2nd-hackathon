@@ -4,11 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LookieLooks.Api.Repositories;
 
 namespace LookieLooks.Api.Services
 {
     public class GameService : IGameService
     {
+        private readonly IMongoRepository<Domain.Game> _gameRepository;
+        public GameService(IMongoRepository<Domain.Game> gameRepository)
+        {
+            _gameRepository = gameRepository;
+        }
         public Task<Guid> CloseGameAsync(Guid gameId)
         {
             //TODO - call function from repo to turn Game.IsBallotOpen = false
