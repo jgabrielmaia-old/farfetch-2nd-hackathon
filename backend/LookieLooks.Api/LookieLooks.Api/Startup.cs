@@ -1,4 +1,6 @@
+using LookieLooks.Api.Interfaces;
 using LookieLooks.Api.Repositories;
+using LookieLooks.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -46,6 +48,8 @@ namespace LookieLooks.Api
                 serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
 
             services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+
+            services.AddScoped(typeof(IGameService), typeof(GameService));
 
             services.AddControllers();
         }

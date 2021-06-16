@@ -8,7 +8,7 @@ namespace LookieLooks.Api.Interfaces
 {
     public interface IGameService
     {
-        public Task<Guid> CreateGameAsync(int productId, Guid attributeId);
+        public void CreateGameAsync(int productId, Guid attributeId);
 
         public Task<Guid> CloseGameAsync(Guid gameId);
 

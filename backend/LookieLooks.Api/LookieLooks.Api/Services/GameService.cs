@@ -21,19 +21,20 @@ namespace LookieLooks.Api.Services
             throw new NotImplementedException();
         }
 
-        public Task<Guid> CreateGameAsync(int productId, Guid attributeId)
+        public void CreateGameAsync(int productId, Guid attributeId)
         {
-            Game newGame = new Game()
+            Domain.Game newGame = new Domain.Game()
             {
                 AttributeId = attributeId,
                 ProductId = productId,
-                Created = DateTime.Now,
                 GameId = Guid.NewGuid(),
                 IsBallotOpen = true
             };
 
+             _gameRepository.InsertOne(newGame);
+
             //TODO - call function from repo to add newly created game "newGame" to repo
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public Task<IEnumerable<Vote>> GetCurrentVotesAsync(Guid gameId)

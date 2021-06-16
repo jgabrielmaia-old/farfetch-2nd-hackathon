@@ -11,10 +11,12 @@ namespace LookieLooks.Api.Services
     public class VoteService : IVoteService
     {
         private readonly IConfiguration config;
+        private readonly IGameService _gameService;
 
-        public VoteService(IConfiguration configuration)
+        public VoteService(IConfiguration configuration, IGameService gameService)
         {
             config = configuration;
+            _gameService = gameService;
         }
 
         public Task ComputeVoteAsync(Vote vote)
@@ -28,8 +30,7 @@ namespace LookieLooks.Api.Services
             {
                 if (numberOfVotes == numbertoEndGame)
                 {
-                    GameService gameService = new GameService();
-                    gameService.CloseGameAsync(vote.GameId);
+                    _gameService.CloseGameAsync(vote.GameId);
                 }
             }
             else

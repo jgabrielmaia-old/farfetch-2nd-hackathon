@@ -10,11 +10,9 @@ namespace LookieLooks.Api.Domain
     {
         public Guid GameId { get; set; }
 
-        public Guid ProductId { get; set; }
+        public int ProductId { get; set; }
 
         public Guid AttributeId { get; set; }
-
-        public DateTime Created { get; set; }
 
         public bool IsBallotOpen { get; set; }
 
