@@ -9,7 +9,7 @@ namespace LookieLooks.Api.Model
     {
         public Guid GameId { get; set; }
 
-        public Guid ProductId { get; set; }
+        public int ProductId { get; set; }
         
         public Guid AttributeId { get; set; }
 
