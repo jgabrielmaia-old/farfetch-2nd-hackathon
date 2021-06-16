@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LookieLooks.Api", "LookieLooks.Api\LookieLooks.Api.csproj", "{82F4D436-35A6-432F-820E-15FD582B4272}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LookieLooks.Image.Api", "..\LookieLooks.Image.Api\LookieLooks.Image.Api\LookieLooks.Image.Api.csproj", "{28B503C6-F0F9-4ED6-A5FA-A491F34D0802}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82F4D436-35A6-432F-820E-15FD582B4272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82F4D436-35A6-432F-820E-15FD582B4272}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82F4D436-35A6-432F-820E-15FD582B4272}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82F4D436-35A6-432F-820E-15FD582B4272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28B503C6-F0F9-4ED6-A5FA-A491F34D0802}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28B503C6-F0F9-4ED6-A5FA-A491F34D0802}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28B503C6-F0F9-4ED6-A5FA-A491F34D0802}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28B503C6-F0F9-4ED6-A5FA-A491F34D0802}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9C07F9AC-69F2-4ADA-A67A-75FA3B95D909}
+	EndGlobalSection
+EndGlobal
