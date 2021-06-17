@@ -33,6 +33,7 @@ export const ClassificationScreen = ({userId}) => {
       options: game.options,  
       selectionHandler: (value) => { 
         vote({userId, gameId: game.id, value});
+        navigation.navigate('NewGame');
         loadGame();
       }
     });
