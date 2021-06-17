@@ -11,14 +11,21 @@ namespace LookieLooks.Api.Services
     public class GameService : IGameService
     {
         private readonly IMongoRepository<Domain.Game> _gameRepository;
-        public GameService(IMongoRepository<Domain.Game> gameRepository)
+        private readonly IMongoRepository<Domain.Vote> _voteRepository;
+        private readonly IMongoRepository<Domain.User> _userRepository;
+        public GameService(IMongoRepository<Domain.Game> gameRepository, IMongoRepository<Domain.Vote> voteRepository, IMongoRepository<Domain.User> userRepository)
         {
             _gameRepository = gameRepository;
+            _voteRepository = voteRepository;
+            _userRepository = userRepository;
         }
-        public Task<Guid> CloseGameAsync(Guid gameId)
+        public Guid CloseGameAsync(Guid gameId)
         {
-            //TODO - call function from repo to turn Game.IsBallotOpen = false
-            throw new NotImplementedException();
+            Domain.Game selectedGame = _gameRepository.FindById(gameId.ToString());
+            selectedGame.IsBallotOpen = false;
+            _gameRepository.ReplaceOne(selectedGame);
+            ComputeGameScore(gameId);
+            return gameId;
         }
 
         public void CreateGameAsync(int productId, Guid attributeId)
@@ -32,33 +39,45 @@ namespace LookieLooks.Api.Services
             };
 
              _gameRepository.InsertOne(newGame);
-
-            //TODO - call function from repo to add newly created game "newGame" to repo
-            //throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Vote>> GetCurrentVotesAsync(Guid gameId)
+        public IEnumerable<Domain.Vote> GetCurrentVotesAsync(Guid gameId)
         {
-            //TODO - call function from repo to get Votes where gameId == gameId
-            throw new NotImplementedException();
+            IEnumerable<Domain.Vote> voteList = _voteRepository.FilterBy(o => o.GameId == gameId);
+            return voteList;
         }
 
-        public Task<Game> GetRandomGameAsync(Guid userId)
+        public Domain.Game GetRandomGameAsync(Guid userId)
         {
-            //TODO - call function from repo to get game with highest number of votes that isn't closed and user hasn't voted in yet
-            throw new NotImplementedException();
+            List<Guid> gameswhereUserIsPresent = _voteRepository.FilterBy(o => o.UserId == userId).Select(o => o.GameId).ToList();
+            Domain.Game newGame = _gameRepository.FilterBy(game => !gameswhereUserIsPresent.Contains(game.GameId)).OrderByDescending(game=>game.Votes.Count()).FirstOrDefault();
+            
+            if (newGame == null)
+            {
+                //TODO - Access product DB, choose a combo of attribute/product and create a new game
+                throw new NotImplementedException();
+            } else
+            {
+                return newGame;
+            }
         }
 
-        public Task<IEnumerable<Game>> GetUserGamesAsync(Guid userId)
+        public IEnumerable<Domain.Game> GetUserGamesAsync(Guid userId)
         {
-            //TODO - call function from repo to get Games with votes where userId = userId
-            throw new NotImplementedException();
+            IEnumerable<Guid> gameIdList = _voteRepository.FilterBy(o => o.UserId == userId).Select(o=>o.GameId);
+            IEnumerable<Domain.Game> gameList = _gameRepository.FilterBy(game => gameIdList.Contains(game.GameId));
+            return gameList;
         }
 
-        public Task<int> GetUserPointsAsync(Guid userId)
+        public int GetUserPointsAsync(Guid userId)
         {
-            //TODO - call function from repo to get score where userId=userId
-            throw new NotImplementedException();
+            int userScore = _userRepository.FindById(userId.ToString()).Score;
+            return userScore;
+        }
+
+        private void ComputeGameScore(Guid gameId)
+        {
+
         }
     }
 }
