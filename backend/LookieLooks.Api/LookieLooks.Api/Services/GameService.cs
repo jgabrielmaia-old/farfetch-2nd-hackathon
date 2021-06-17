@@ -43,13 +43,13 @@ namespace LookieLooks.Api.Services
 
         public IEnumerable<Domain.Vote> GetCurrentVotesAsync(Guid gameId)
         {
-            IEnumerable<Domain.Vote> voteList = _voteRepository.FilterBy(o => o.GameId == gameId);
+            IEnumerable<Domain.Vote> voteList = _voteRepository.FilterBy(votes => votes.GameId == gameId);
             return voteList;
         }
 
         public Domain.Game GetRandomGameAsync(Guid userId)
         {
-            List<Guid> gameswhereUserIsPresent = _voteRepository.FilterBy(o => o.UserId == userId).Select(o => o.GameId).ToList();
+            List<Guid> gameswhereUserIsPresent = _voteRepository.FilterBy(votes => votes.UserId == userId).Select(votesOfUser => votesOfUser.GameId).ToList();
             Domain.Game newGame = _gameRepository.FilterBy(game => !gameswhereUserIsPresent.Contains(game.GameId)).OrderByDescending(game=>game.Votes.Count()).FirstOrDefault();
             
             if (newGame == null)
@@ -64,7 +64,7 @@ namespace LookieLooks.Api.Services
 
         public IEnumerable<Domain.Game> GetUserGamesAsync(Guid userId)
         {
-            IEnumerable<Guid> gameIdList = _voteRepository.FilterBy(o => o.UserId == userId).Select(o=>o.GameId);
+            IEnumerable<Guid> gameIdList = _voteRepository.FilterBy(votes => votes.UserId == userId).Select(votesOfUser=> votesOfUser.GameId);
             IEnumerable<Domain.Game> gameList = _gameRepository.FilterBy(game => gameIdList.Contains(game.GameId));
             return gameList;
         }
@@ -77,7 +77,19 @@ namespace LookieLooks.Api.Services
 
         private void ComputeGameScore(Guid gameId)
         {
+            List<Guid> userIds = _voteRepository.FilterBy(votes => votes.GameId == gameId)
+                .GroupBy(votesOfGame => votesOfGame.SelectedOption)
+                .OrderByDescending(votesOfGameByOption => votesOfGameByOption.Count())
+                .First()
+                .Select(winningVotes => winningVotes.UserId)
+                .ToList();
 
+            foreach(Guid id in userIds)
+            {
+                Domain.User selectedUser =_userRepository.FindById(id.ToString());
+                selectedUser.Score += 5;
+                _userRepository.ReplaceOne(selectedUser);
+            }
         }
     }
 }
