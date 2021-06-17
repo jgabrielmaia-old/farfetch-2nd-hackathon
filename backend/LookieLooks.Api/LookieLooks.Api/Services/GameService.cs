@@ -34,7 +34,6 @@ namespace LookieLooks.Api.Services
             {
                 AttributeId = attributeId,
                 ProductId = productId,
-                GameId = Guid.NewGuid(),
                 IsBallotOpen = true
             };
 
@@ -49,12 +48,12 @@ namespace LookieLooks.Api.Services
 
         public Domain.Game GetRandomGameAsync(Guid userId)
         {
-            List<Guid> gameswhereUserIsPresent = _voteRepository.FilterBy(votes => votes.UserId == userId).Select(votesOfUser => votesOfUser.GameId).ToList();
-            Domain.Game newGame = _gameRepository.FilterBy(game => !gameswhereUserIsPresent.Contains(game.GameId)).OrderByDescending(game=>game.Votes.Count()).FirstOrDefault();
+            List<string> gameswhereUserIsPresent = _voteRepository.FilterBy(votes => votes.UserId == userId).Select(votesOfUser => votesOfUser.GameId.ToString()).ToList();
+            Domain.Game newGame = _gameRepository.FilterBy(game => !gameswhereUserIsPresent.Contains(game.Id.ToString()) && game.IsBallotOpen).OrderByDescending(game=>game.Votes.Count()).FirstOrDefault();
             
             if (newGame == null)
             {
-                //TODO - Access product DB, choose a combo of attribute/product and create a new game
+              
                 throw new NotImplementedException();
             } else
             {
@@ -64,8 +63,8 @@ namespace LookieLooks.Api.Services
 
         public IEnumerable<Domain.Game> GetUserGamesAsync(Guid userId)
         {
-            IEnumerable<Guid> gameIdList = _voteRepository.FilterBy(votes => votes.UserId == userId).Select(votesOfUser=> votesOfUser.GameId);
-            IEnumerable<Domain.Game> gameList = _gameRepository.FilterBy(game => gameIdList.Contains(game.GameId));
+            IEnumerable<string> gameIdList = _voteRepository.FilterBy(votes => votes.UserId == userId).Select(votesOfUser=> votesOfUser.GameId.ToString());
+            IEnumerable<Domain.Game> gameList = _gameRepository.FilterBy(game => gameIdList.Contains(game.Id.ToString()));
             return gameList;
         }
 
