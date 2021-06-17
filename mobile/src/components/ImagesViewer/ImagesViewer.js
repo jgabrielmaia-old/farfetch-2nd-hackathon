@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import { ImageBackground, View } from 'react-native';
-import { Layout, Text, ViewPager} from '@ui-kitten/components';
+import { Layout, Text, ViewPager, Spinner} from '@ui-kitten/components';
 
 import styles from './ImagesViewer.styles';
 
 const ImagesViewer = ({images = [], question = ''}) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const containsImages = !!images.length;
 
     const renderImage = (uri) => (
         <Layout key={uri} level='2' style={styles.view}>            
@@ -19,9 +20,12 @@ const ImagesViewer = ({images = [], question = ''}) => {
 
 
     return (
-        <ViewPager selectedIndex={selectedIndex} onSelect={setSelectedIndex}>
-            {images.map(renderImage)}
-        </ViewPager>
+        <>
+            {!containsImages && <Spinner/> }
+            {containsImages && <ViewPager selectedIndex={selectedIndex} onSelect={setSelectedIndex}>
+                {images?.map(renderImage)}
+            </ViewPager>}
+        </>
     );
 };
 

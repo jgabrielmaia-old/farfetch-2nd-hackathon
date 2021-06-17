@@ -1,36 +1,57 @@
-import React from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
-import { Divider, TopNavigation } from '@ui-kitten/components';
+import React, {useEffect, useState} from 'react';
+import { SafeAreaView } from 'react-native';
+import { Divider, TopNavigation, Spinner } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import ImagesScreen from './ImagesScreen';
+import {getGame, vote} from '../../sevices/api';
 
-export const ClassificationScreen = () => {
-  const navigation = useNavigation();
+export const ClassificationScreen = ({userId}) => {
+  const [loading, setLoading] = useState(false);
+  const [game, setGame] = useState({});
+  const navigation = useNavigation();  
+  
+  const loadGame = async () => {
+      if(loading) {
+        return;
+      }
+      
+      setLoading(true);
+
+      const loadedGame = await getGame(userId);
+
+      setGame(loadedGame)
+      setLoading(false)
+    }
+
+  useEffect(() => {
+    loadGame();
+  }, []);
 
   const navigateTags = () => { 
-    navigation.navigate('Tags', { options: ['test 1','test 2', 'test 3'] });
+    navigation.navigate('Tags', { 
+      options: game.options,  
+      selectionHandler: (value) => { 
+        vote({userId, gameId: game.id, value});
+        loadGame();
+      }
+    });
   };
+
+  const skipGame = () => {
+      loadGame();
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      {loading && <Spinner/>}
       <TopNavigation title='Lookie Looks' alignment='center'/>
       <Divider/>      
-      <ImagesScreen classificationHandler={() => navigateTags()}/>
+      <ImagesScreen 
+        question={game.attribute} 
+        images={game.images} 
+        classificationHandler={() => navigateTags()}
+        skipHandler={skipGame}
+      />
     </SafeAreaView>
   );
 };
-
-
-const styles = StyleSheet.create({
-  layout : {
-    flex: 1, 
-    justifyContent: 'center', 
-  },
-  buttonGroup: {
-    justifyContent: 'center', 
-    margin: 2,
-  },
-  button:{
-    width:'100%'
-  }
-});

@@ -9,9 +9,9 @@ const styles = StyleSheet.create({
     image: {
         flex: 1,
         resizeMode: "stretch",
-        justifyContent: "center",
     },
     text: {
+        width: 400,
         color: "white",
         fontSize: 42,
         fontWeight: "bold",
