@@ -15,10 +15,12 @@ namespace LookieLooks.Api.Controllers
     {
         private readonly IGameService _gameService;
         private readonly IVoteService _voteService;
-        public GameController(IGameService gameService, IVoteService voteService)
+        private readonly IUserService _userService;
+        public GameController(IGameService gameService, IVoteService voteService, IUserService userService)
         {
             _gameService = gameService;
             _voteService = voteService;
+            _userService = userService;
         }
 
         #region testes
@@ -50,6 +52,13 @@ namespace LookieLooks.Api.Controllers
         public async Task<OkObjectResult> SubmitVote(Vote vote)
         {
             string result = await _voteService.ComputeVoteAsync(vote);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<OkObjectResult> getLeaderboard()
+        {
+            var result = _userService.getTopUsers();
             return Ok(result);
         }
     }

@@ -45,5 +45,17 @@ namespace LookieLooks.Api.Services
                 return selectedUser.Id.ToString();
             }
         }
+
+        public List<Model.User> getTopUsers()
+        {
+            int numberOfUsers = _userRepository.FilterBy(x => true).Count();
+            if(numberOfUsers > 10)
+            {
+                return _userRepository.FilterBy(x => true).OrderByDescending(user => user.Score).Take(10).Select(user=>user.GetUserDTO()).ToList();
+            } else
+            {
+                return _userRepository.FilterBy(x => true).OrderByDescending(user => user.Score).Select(user => user.GetUserDTO()).ToList();
+            }
+        }
     }
 }

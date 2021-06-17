@@ -13,5 +13,15 @@ namespace LookieLooks.Api.Domain
         public string AvatarImageUrl { get; set; }
 
         public int Score { get; set; }
+
+        public Model.User GetUserDTO()
+        {
+            return new Model.User()
+            {
+                AvatarImageUrl = AvatarImageUrl,
+                Score = Score,
+                UserName = UserName
+            };
+        }
     }
 }
