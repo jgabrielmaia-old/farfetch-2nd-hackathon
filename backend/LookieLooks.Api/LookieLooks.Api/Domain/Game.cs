@@ -21,6 +21,8 @@ namespace LookieLooks.Api.Domain
 
         public IEnumerable<Vote> Votes { get; set; }
 
+        public IEnumerable<string> ImageLinks { get; set; }
+
         public Model.Game GetResponse()
         {
             Model.Game gameDto = new Model.Game()
