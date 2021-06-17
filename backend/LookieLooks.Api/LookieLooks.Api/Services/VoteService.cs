@@ -28,7 +28,7 @@ namespace LookieLooks.Api.Services
             {
                 GameId = vote.GameId,
                 SelectedOption = vote.SelectedOption,
-                UserId = vote.UserId
+                UserName = vote.UserName
             };
             await _voteRepository.InsertOneAsync(voteToAdd);
 

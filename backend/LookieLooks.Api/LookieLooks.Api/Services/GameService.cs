@@ -13,11 +13,16 @@ namespace LookieLooks.Api.Services
         private readonly IMongoRepository<Domain.Game> _gameRepository;
         private readonly IMongoRepository<Domain.Vote> _voteRepository;
         private readonly IMongoRepository<Domain.User> _userRepository;
-        public GameService(IMongoRepository<Domain.Game> gameRepository, IMongoRepository<Domain.Vote> voteRepository, IMongoRepository<Domain.User> userRepository)
+        private readonly IMongoRepository<Domain.Product> _productsRepository;
+        private readonly IMongoRepository<Domain.TypeAttribute> _typeAttributeRepository;
+        public GameService(IMongoRepository<Domain.Game> gameRepository, IMongoRepository<Domain.Vote> voteRepository, IMongoRepository<Domain.User> userRepository,
+            IMongoRepository<Domain.Product> productsRepository, IMongoRepository<Domain.TypeAttribute> typeAttributeRepository)
         {
             _gameRepository = gameRepository;
             _voteRepository = voteRepository;
             _userRepository = userRepository;
+            _productsRepository = productsRepository;
+            _typeAttributeRepository = typeAttributeRepository;
         }
         public Guid CloseGameAsync(Guid gameId)
         {
@@ -28,17 +33,17 @@ namespace LookieLooks.Api.Services
             return gameId;
         }
 
-        public void CreateGameAsync(int productId, Guid attributeId)
+        public void CreateGameAsync(int productId, string attributeName)
         {
             Domain.Game newGame = new Domain.Game()
             {
-                AttributeId = attributeId,
+                AttributeName = attributeName,
                 ProductId = productId,
                 GameId = Guid.NewGuid(),
                 IsBallotOpen = true
             };
 
-             _gameRepository.InsertOne(newGame);
+            _gameRepository.InsertOne(newGame);
         }
 
         public IEnumerable<Domain.Vote> GetCurrentVotesAsync(Guid gameId)
@@ -47,49 +52,92 @@ namespace LookieLooks.Api.Services
             return voteList;
         }
 
-        public Domain.Game GetRandomGameAsync(Guid userId)
+        public Domain.Game GetRandomGameAsync(string userName)
         {
-            List<Guid> gameswhereUserIsPresent = _voteRepository.FilterBy(votes => votes.UserId == userId).Select(votesOfUser => votesOfUser.GameId).ToList();
-            Domain.Game newGame = _gameRepository.FilterBy(game => !gameswhereUserIsPresent.Contains(game.GameId)).OrderByDescending(game=>game.Votes.Count()).FirstOrDefault();
-            
-            if (newGame == null)
+            var gameswhereUserIsPresent = _voteRepository.FilterBy(votes => votes.UserName == userName).Select(x => x.GameId).ToList();
+            Domain.Game newUserGame = _gameRepository.FilterBy(game => !gameswhereUserIsPresent.Contains(game.GameId)).OrderByDescending(game => game.Votes.Count()).FirstOrDefault();
+
+            if (newUserGame == null)
             {
-                //TODO - Access product DB, choose a combo of attribute/product and create a new game
-                throw new NotImplementedException();
-            } else
-            {
+                var newGame = new Domain.Game();
+                var allGames = _gameRepository.FilterBy(x => true).ToList();
+                var allProducts = _productsRepository.FilterBy(x => true).ToList();
+                var allTypeAttributes = _typeAttributeRepository.FilterBy(x => true).ToList();
+
+                List<Tuple<int, string>> usedCombinations = _gameRepository.FilterBy(x => true)
+                    .Select(g => new Tuple<int, string>(g.ProductId, g.AttributeName))
+                    .ToList();
+
+                foreach (var product in allProducts)
+                {
+                    var attributes = allTypeAttributes.Where(x => x.Type == product.Type).SelectMany(x => x.Attributes.Keys).ToList();
+                    foreach (var attribute in attributes)
+                    {
+                        if (!usedCombinations.Any(g => g.Item1 == product.ProductId && g.Item2 == attribute))
+                        {
+                            Domain.Game game = new Domain.Game()
+                            {
+                                AttributeName = attribute,
+                                IsBallotOpen = true,
+                                ProductId = product.ProductId
+                            };
+                            _gameRepository.InsertOne(game);
+                            newGame = game;
+                        }
+                    }
+                }
                 return newGame;
+            }
+            else
+            {
+                return newUserGame;
             }
         }
 
-        public IEnumerable<Domain.Game> GetUserGamesAsync(Guid userId)
+        public IEnumerable<Domain.Game> GetUserGamesAsync(string userName)
         {
-            IEnumerable<Guid> gameIdList = _voteRepository.FilterBy(votes => votes.UserId == userId).Select(votesOfUser=> votesOfUser.GameId);
+            IEnumerable<Guid> gameIdList = _voteRepository.FilterBy(votes => votes.UserName == userName).Select(votesOfUser => votesOfUser.GameId);
             IEnumerable<Domain.Game> gameList = _gameRepository.FilterBy(game => gameIdList.Contains(game.GameId));
             return gameList;
         }
 
-        public int GetUserPointsAsync(Guid userId)
+        public int GetUserPointsAsync(string userName)
         {
-            int userScore = _userRepository.FindById(userId.ToString()).Score;
+            int userScore = _userRepository.FindOne(x => x.UserName == userName).Score;
             return userScore;
         }
 
         private void ComputeGameScore(Guid gameId)
         {
-            List<Guid> userIds = _voteRepository.FilterBy(votes => votes.GameId == gameId)
+            List<string> userIds = _voteRepository.FilterBy(votes => votes.GameId == gameId)
                 .GroupBy(votesOfGame => votesOfGame.SelectedOption)
                 .OrderByDescending(votesOfGameByOption => votesOfGameByOption.Count())
                 .First()
-                .Select(winningVotes => winningVotes.UserId)
+                .Select(winningVotes => winningVotes.UserName)
                 .ToList();
 
-            foreach(Guid id in userIds)
+            foreach (string id in userIds)
             {
-                Domain.User selectedUser =_userRepository.FindById(id.ToString());
+                Domain.User selectedUser = _userRepository.FindById(id.ToString());
                 selectedUser.Score += 5;
                 _userRepository.ReplaceOne(selectedUser);
             }
+        }
+
+        public void CreateProducts(List<Product> products)
+        {
+            var domainProducts = new List<Domain.Product>();
+            foreach(var product in products)
+            {
+                var domainProduct = new Domain.Product()
+                {
+                    Type = product.Type,
+                    ImagesLink = product.ImagesLink,
+                    ProductId = product.ProductId
+                };
+                domainProducts.Add(domainProduct);
+            }
+            _productsRepository.InsertManyAsync(domainProducts);
         }
     }
 }

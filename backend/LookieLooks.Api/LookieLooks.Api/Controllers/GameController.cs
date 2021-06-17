@@ -1,4 +1,5 @@
 ﻿using LookieLooks.Api.Interfaces;
+using LookieLooks.Api.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,9 +20,17 @@ namespace LookieLooks.Api.Controllers
         }
 
         [HttpPost]
-        public void CreateGame(int productId, Guid attributeId)
+        public void GetRandomGame(string userName)
         {
-            _gameService.CreateGameAsync(productId, attributeId);
+            _gameService.GetRandomGameAsync(userName);
         }
+
+        [Route("CreateProducts")]
+        [HttpPost]
+        public void CreateProducts([FromBody]List<Product> products)
+        {
+            _gameService.CreateProducts(products);
+        }
+
     }
 }

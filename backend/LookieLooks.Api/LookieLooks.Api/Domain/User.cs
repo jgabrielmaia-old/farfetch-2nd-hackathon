@@ -8,7 +8,7 @@ namespace LookieLooks.Api.Domain
     [BsonCollection("users")]
     public class User : Document
     {
-        public Guid UserId { get; set; }
+        public string UserName { get; set; }
 
         public string AvatarImageUrl { get; set; }
 

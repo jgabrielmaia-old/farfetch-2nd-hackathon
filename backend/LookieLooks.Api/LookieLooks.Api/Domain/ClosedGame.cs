@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace LookieLooks.Api.Domain
 {
     [BsonCollection("closedGames")]
-    public class ClosedGame
+    public class ClosedGame : Document
     {
         public int ProductId { get; set; }
 
