@@ -13,6 +13,6 @@ namespace LookieLooks.Api.Domain
         [BsonRepresentation(BsonType.String)]
         ObjectId Id { get; set; }
 
-        DateTime CreatedAt { get; }
+        DateTime CreatedDate { get; }
     }
 }

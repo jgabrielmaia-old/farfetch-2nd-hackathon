@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LookieLooks.Api.Domain
 {
-    [BsonCollection("user")]
+    [BsonCollection("users")]
     public class User : Document
     {
         public Guid UserId { get; set; }

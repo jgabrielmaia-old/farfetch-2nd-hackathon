@@ -8,8 +8,8 @@ namespace LookieLooks.Api.Domain
 {
     public abstract class Document : IDocument
     {
-        public ObjectId Id { get; set; }
+        public virtual ObjectId Id { get; set; }
 
-        public DateTime CreatedAt => Id.CreationTime;
+        public DateTime CreatedDate => Id.CreationTime;
     }
 }
