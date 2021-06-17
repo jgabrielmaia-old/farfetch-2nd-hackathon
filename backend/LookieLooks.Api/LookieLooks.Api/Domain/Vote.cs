@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LookieLooks.Api.Model
+namespace LookieLooks.Api.Domain
 {
-    public class Vote
+    [BsonCollection("votes")]
+    public class Vote : Document
     {
         public Guid GameId { get; set; }
-        
+
         public string UserName { get; set; }
 
         public string SelectedOption { get; set; }

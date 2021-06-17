@@ -9,14 +9,18 @@ namespace LookieLooks.Api.Model
     {
         public Guid GameId { get; set; }
 
-        public Guid ProductId { get; set; }
+        public int ProductId { get; set; }
         
-        public Guid AttributeId { get; set; }
+        public string AttributeId { get; set; }
 
         public DateTime Created { get; set; }
 
         public bool IsBallotOpen { get; set; }
 
         public IEnumerable<Vote> Votes { get; set; }
+
+        public IEnumerable<string> ImageLinks { get; set; }
+
+        public IEnumerable<string> AttributeOptions { get; set; }
     }
 }

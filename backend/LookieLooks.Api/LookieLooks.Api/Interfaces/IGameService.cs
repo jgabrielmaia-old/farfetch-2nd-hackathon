@@ -8,16 +8,20 @@ namespace LookieLooks.Api.Interfaces
 {
     public interface IGameService
     {
-        public Task<Guid> CreateGameAsync(int productId, Guid attributeId);
+        public void CreateGameAsync(int productId, string attributeName);
 
-        public Task<Guid> CloseGameAsync(Guid gameId);
+        public Guid CloseGameAsync(Guid gameId);
 
-        public Task<IEnumerable<Vote>> GetCurrentVotesAsync(Guid gameId);
+        public IEnumerable<Domain.Vote> GetCurrentVotesAsync(Guid gameId);
 
-        public Task<Game> GetRandomGameAsync(Guid userId);
+        public Domain.Game GetRandomGameAsync(string userName);
 
-        public Task<IEnumerable<Game>> GetUserGamesAsync(Guid userId);
+        public IEnumerable<Domain.Game> GetUserGamesAsync(string userName);
 
-        public Task<int> GetUserPointsAsync(Guid userId);
+        public int GetUserPointsAsync(string userName);
+
+        public void CreateProducts(List<Product> products);
+
+        public void CreateTypeAttributes(List<TypeAttribute> typeAttributes);
     }
 }

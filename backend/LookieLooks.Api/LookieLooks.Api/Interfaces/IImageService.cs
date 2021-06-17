@@ -7,6 +7,6 @@ namespace LookieLooks.Api.Interfaces
 {
     public interface IImageService
     {
-        public Task<IDictionary<int, IEnumerable<string>>> GetImagesAsync(int productId);
+        public Dictionary<int, IEnumerable<string>> GetImagesAsync(int productId);
     }
 }
