@@ -5,9 +5,7 @@ import {
 } from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import { mapping, dark } from "@eva-design/eva";
-import {AppNavigator} from './src/pages/Navigator';
-
-
+import { AppNavigator } from './src/pages/Navigator';
 
 const App = () =>  (
     <>
