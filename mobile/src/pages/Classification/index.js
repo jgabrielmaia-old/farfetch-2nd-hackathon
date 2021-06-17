@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { SafeAreaView } from 'react-native';
-import { Divider, TopNavigation, Spinner } from '@ui-kitten/components';
+import { Divider, TopNavigation } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import ImagesScreen from './ImagesScreen';
 import {getGame, vote} from '../../sevices/api';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export const ClassificationScreen = ({userId}) => {
   const [loading, setLoading] = useState(false);
@@ -43,7 +44,7 @@ export const ClassificationScreen = ({userId}) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {loading && <Spinner/>}
+      <Spinner visible={loading}/>
       <TopNavigation title='Lookie Looks' alignment='center'/>
       <Divider/>      
       <ImagesScreen 
