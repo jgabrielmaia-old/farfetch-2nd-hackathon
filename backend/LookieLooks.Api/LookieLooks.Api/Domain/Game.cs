@@ -32,6 +32,8 @@ namespace LookieLooks.Api.Domain
                 IsBallotOpen = IsBallotOpen,
                 Created = CreatedDate,
                 ProductId = ProductId,
+                AttributeOptions = new List<string>(),
+                ImageLinks = new List<string>(),
                 Votes = new List<Model.Vote>()
             };
 
@@ -43,6 +45,16 @@ namespace LookieLooks.Api.Domain
                     SelectedOption = vote.SelectedOption,
                     UserName = vote.UserName
                 });
+            }
+
+            foreach (var option in AttributeOptions)
+            {
+                gameDto.AttributeOptions.Append(option);
+            }
+            
+            foreach (var link in ImageLinks)
+            {
+                gameDto.ImageLinks.Append(link);
             }
             return gameDto;
         }
