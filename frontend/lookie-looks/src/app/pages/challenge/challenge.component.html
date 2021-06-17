@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="justify-content-around carouselCont">
+        <ngb-carousel *ngIf="images" [showNavigationArrows]="true" [showNavigationIndicators]="false" class="col-xs-4">
+            <ng-template ngbSlide>
+                <div class="picsum-img-wrapper">
+                    <img [src]="images[0]" alt="Random first slide" width="650">
+                </div>
+                <div class="carousel-caption">
+                    <h3>Which type of shoe is this?</h3>
+                </div>
+                </ng-template>
+                <ng-template ngbSlide>
+                <div class="picsum-img-wrapper">
+                    <img [src]="images[1]" alt="Random second slide" width="650">
+                </div>
+                <div class="carousel-caption">
+                    <h3>Which type of shoe is this?</h3>
+                </div>
+                </ng-template>
+                <ng-template ngbSlide>
+                <div class="picsum-img-wrapper">
+                    <img [src]="images[2]" alt="Random third slide" width="650">
+                </div>
+                <div class="carousel-caption">
+                    <h3>Which type of shoe is this?</h3>
+                </div>
+            </ng-template>
+        </ngb-carousel>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-primary btn-lg btn-block">Respond Challenge</button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-danger btn-lg btn-block">Skip Challenge</button>
+        </div>     
+    </div>
+</div>
