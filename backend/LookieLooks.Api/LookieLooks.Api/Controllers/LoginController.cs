@@ -7,16 +7,14 @@ using System.Threading.Tasks;
 
 namespace LookieLooks.Api.Controllers
 {
-    public class LoginController : Controller
+    [Route("api/login")]
+    [ApiController]
+    public class LoginController : ControllerBase
     {
         private readonly IUserService _userService;
         public LoginController(IUserService userService)
         {
             _userService = userService;
-        }
-        public IActionResult Index()
-        {
-            return View();
         }
 
         [HttpPost]

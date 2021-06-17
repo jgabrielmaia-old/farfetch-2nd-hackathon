@@ -26,12 +26,12 @@ namespace LookieLooks.Api.Services
             };
             _userRepository.InsertOne(newUser);
 
-            return newUser.Id.ToString();
+            return userName;
         }
 
-        public User GetUser(Guid userId)
+        public User GetUser(string userId)
         {
-            return _userRepository.FindById(userId.ToString());
+            return _userRepository.FindById(userId);
         }
 
         public string GetUserId(string userName)

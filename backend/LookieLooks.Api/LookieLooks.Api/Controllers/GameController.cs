@@ -14,11 +14,14 @@ namespace LookieLooks.Api.Controllers
     public class GameController : ControllerBase
     {
         private readonly IGameService _gameService;
-        public GameController(IGameService gameService)
+        private readonly IVoteService _voteService;
+        public GameController(IGameService gameService, IVoteService voteService)
         {
             _gameService = gameService;
+            _voteService = voteService;
         }
 
+        #region testes
         [HttpPost]
         public void GetRandomGame(string userName)
         {
@@ -39,5 +42,22 @@ namespace LookieLooks.Api.Controllers
             _gameService.CreateTypeAttributes(products);
         }
 
+
+        #endregion
+        //Funções Finais
+        [HttpPost]
+        public OkObjectResult getNewGameObject(string userName)
+        {
+            Domain.Game returnedGame = _gameService.GetRandomGameAsync(userName);
+            return Ok(returnedGame.GetResponse());
+
+        }
+
+        [HttpPost]
+        public async Task<OkObjectResult> SubmitVote(Vote vote)
+        {
+            string result = await _voteService.ComputeVoteAsync(vote);
+            return Ok(result);
+        }
     }
 }
