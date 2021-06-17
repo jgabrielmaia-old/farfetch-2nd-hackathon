@@ -8,6 +8,6 @@ namespace LookieLooks.Api.Interfaces
 {
     public interface IVoteService
     {
-        public Task ComputeVoteAsync(Vote vote);
+        public async Task<string> ComputeVoteAsync(Vote vote);
     }
 }

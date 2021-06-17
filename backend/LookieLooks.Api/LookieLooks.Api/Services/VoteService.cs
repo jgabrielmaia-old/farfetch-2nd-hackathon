@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LookieLooks.Api.Interfaces;
 using LookieLooks.Api.Model;
+using LookieLooks.Api.Repositories;
 using Microsoft.Extensions.Configuration;
 
 namespace LookieLooks.Api.Services
@@ -12,19 +13,26 @@ namespace LookieLooks.Api.Services
     {
         private readonly IConfiguration config;
         private readonly IGameService _gameService;
+        private readonly IMongoRepository<Domain.Vote> _voteRepository;
 
-        public VoteService(IConfiguration configuration, IGameService gameService)
+        public VoteService(IConfiguration configuration, IGameService gameService, IMongoRepository<Domain.Vote> voteRepository)
         {
             config = configuration;
             _gameService = gameService;
+            _voteRepository = voteRepository;
         }
 
-        public Task ComputeVoteAsync(Vote vote)
+        public async Task<string> ComputeVoteAsync(Vote vote)
         {
-            //TODO - call function from repo to save Vote into db
+            Domain.Vote voteToAdd = new Domain.Vote()
+            {
+                GameId = vote.GameId,
+                SelectedOption = vote.SelectedOption,
+                UserId = vote.UserId
+            };
+            await _voteRepository.InsertOneAsync(voteToAdd);
 
-
-            int numberOfVotes = 1; //TODO - call function from repo to get number of votes where gameId=vote.gameId
+            int numberOfVotes = _voteRepository.FilterBy(votes => votes.GameId == vote.GameId).Count();
             string NumberofVotesToEndGame = config.GetSection("Settings").GetSection("NumberofVotesToEndGame").Value;
             if (int.TryParse(NumberofVotesToEndGame, out int numbertoEndGame))
             {
@@ -35,11 +43,11 @@ namespace LookieLooks.Api.Services
             }
             else
             {
-                throw new Exception("Invalid Appsettings Number to end Game");
+                return "Invalid Appsettings Number to end Game";
             }
 
 
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

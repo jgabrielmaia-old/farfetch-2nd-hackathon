@@ -10,14 +10,14 @@ namespace LookieLooks.Api.Interfaces
     {
         public void CreateGameAsync(int productId, Guid attributeId);
 
-        public Task<Guid> CloseGameAsync(Guid gameId);
+        public Guid CloseGameAsync(Guid gameId);
 
-        public Task<IEnumerable<Vote>> GetCurrentVotesAsync(Guid gameId);
+        public IEnumerable<Domain.Vote> GetCurrentVotesAsync(Guid gameId);
 
-        public Task<Game> GetRandomGameAsync(Guid userId);
+        public Domain.Game GetRandomGameAsync(Guid userId);
 
-        public Task<IEnumerable<Game>> GetUserGamesAsync(Guid userId);
+        public IEnumerable<Domain.Game> GetUserGamesAsync(Guid userId);
 
-        public Task<int> GetUserPointsAsync(Guid userId);
+        public int GetUserPointsAsync(Guid userId);
     }
 }
