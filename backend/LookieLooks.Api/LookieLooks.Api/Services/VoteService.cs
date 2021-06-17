@@ -46,7 +46,6 @@ namespace LookieLooks.Api.Services
                 return "Invalid Appsettings Number to end Game";
             }
 
-
             return null;
         }
     }

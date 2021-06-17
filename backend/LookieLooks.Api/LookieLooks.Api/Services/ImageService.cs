@@ -16,7 +16,7 @@ namespace LookieLooks.Api.Services
         }
         public Dictionary<int, IEnumerable<string>> GetImagesAsync(int productId)
         {
-            IEnumerable<string> ImageList = _productRepository.FindById(productId.ToString()).ImagesLink;
+            IEnumerable<string> ImageList = _productRepository.FindOne(product => product.ProductId == productId).ImagesLink;
             Dictionary<int, IEnumerable<string>> productImages = new Dictionary<int, IEnumerable<string>>
             {
                 { productId, ImageList }

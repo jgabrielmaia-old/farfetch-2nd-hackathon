@@ -26,7 +26,7 @@ namespace LookieLooks.Api.Services
         }
         public Guid CloseGameAsync(Guid gameId)
         {
-            Domain.Game selectedGame = _gameRepository.FindById(gameId.ToString());
+            Domain.Game selectedGame = _gameRepository.FindOne(x=> x.GameId == gameId);
             selectedGame.IsBallotOpen = false;
             _gameRepository.ReplaceOne(selectedGame);
             ComputeGameScore(gameId);
@@ -39,7 +39,8 @@ namespace LookieLooks.Api.Services
             {
                 AttributeName = attributeName,
                 ProductId = productId,
-                IsBallotOpen = true
+                IsBallotOpen = true,
+                GameId = Guid.NewGuid()
             };
 
             _gameRepository.InsertOne(newGame);
@@ -117,7 +118,7 @@ namespace LookieLooks.Api.Services
 
             foreach (string id in userIds)
             {
-                Domain.User selectedUser = _userRepository.FindById(id.ToString());
+                Domain.User selectedUser = _userRepository.FindOne(user => user.UserName == id);
                 selectedUser.Score += 5;
                 _userRepository.ReplaceOne(selectedUser);
             }

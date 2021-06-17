@@ -7,7 +7,7 @@ namespace LookieLooks.Api.Interfaces
 {
     public interface IUserService
     {
-        public Domain.User GetUser(Guid userId);
+        public Domain.User GetUser(string userId);
         public string GetUserId(string userName);
     }
 }

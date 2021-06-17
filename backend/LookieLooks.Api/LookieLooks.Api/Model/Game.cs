@@ -11,7 +11,7 @@ namespace LookieLooks.Api.Model
 
         public int ProductId { get; set; }
         
-        public Guid AttributeId { get; set; }
+        public string AttributeId { get; set; }
 
         public DateTime Created { get; set; }
 

@@ -21,22 +21,22 @@ namespace LookieLooks.Api.Services
             User newUser = new User()
             {
                 Score = 0,
-                Username = userName,
+                UserName = userName,
                 AvatarImageUrl = ""
             };
             _userRepository.InsertOne(newUser);
 
-            return newUser.Id.ToString();
+            return userName;
         }
 
-        public User GetUser(Guid userId)
+        public User GetUser(string userId)
         {
-            return _userRepository.FindById(userId.ToString());
+            return _userRepository.FindById(userId);
         }
 
         public string GetUserId(string userName)
         {
-            User selectedUser = _userRepository.FindOne(user => user.Username == userName);
+            User selectedUser = _userRepository.FindOne(user => user.UserName == userName);
             if(selectedUser == null)
             {
                 return AddUser(userName);

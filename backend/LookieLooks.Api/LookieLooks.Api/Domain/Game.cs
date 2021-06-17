@@ -18,5 +18,29 @@ namespace LookieLooks.Api.Domain
         public bool IsBallotOpen { get; set; }
 
         public IEnumerable<Vote> Votes { get; set; }
+
+        public Model.Game GetResponse()
+        {
+            Model.Game gameDto = new Model.Game()
+            {
+                AttributeId = AttributeName,
+                GameId = GameId,
+                IsBallotOpen = IsBallotOpen,
+                Created = CreatedDate,
+                ProductId = ProductId,
+                Votes = new List<Model.Vote>()
+            };
+
+            foreach(var vote in Votes)
+            {
+                gameDto.Votes.Append(new Model.Vote()
+                {
+                    GameId = vote.GameId,
+                    SelectedOption = vote.SelectedOption,
+                    UserName = vote.UserName
+                });
+            }
+            return gameDto;
+        }
     }
 }
