@@ -21,5 +21,7 @@ namespace LookieLooks.Api.Interfaces
         public int GetUserPointsAsync(string userName);
 
         public void CreateProducts(List<Product> products);
+
+        public void CreateTypeAttributes(List<TypeAttribute> typeAttributes);
     }
 }

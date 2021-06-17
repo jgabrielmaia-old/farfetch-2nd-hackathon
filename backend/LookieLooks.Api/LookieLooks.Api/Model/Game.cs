@@ -18,5 +18,9 @@ namespace LookieLooks.Api.Model
         public bool IsBallotOpen { get; set; }
 
         public IEnumerable<Vote> Votes { get; set; }
+
+        public IEnumerable<string> ImageLinks { get; set; }
+
+        public IEnumerable<string> AttributeOptions { get; set; }
     }
 }
