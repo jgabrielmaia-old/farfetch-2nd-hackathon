@@ -21,7 +21,7 @@ namespace LookieLooks.Api.Services
             User newUser = new User()
             {
                 Score = 0,
-                Username = userName,
+                UserName = userName,
                 AvatarImageUrl = ""
             };
             _userRepository.InsertOne(newUser);
@@ -36,7 +36,7 @@ namespace LookieLooks.Api.Services
 
         public string GetUserId(string userName)
         {
-            User selectedUser = _userRepository.FindOne(user => user.Username == userName);
+            User selectedUser = _userRepository.FindOne(user => user.UserName == userName);
             if(selectedUser == null)
             {
                 return AddUser(userName);

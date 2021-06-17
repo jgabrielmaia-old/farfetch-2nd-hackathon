@@ -15,8 +15,12 @@ namespace LookieLooks.Api.Domain
 
         public string AttributeName { get; set; }
 
+        public IEnumerable<string> AttributeOptions { get; set; }
+
         public bool IsBallotOpen { get; set; }
 
         public IEnumerable<Vote> Votes { get; set; }
+
+        public IEnumerable<string> ImageLinks { get; set; }
     }
 }

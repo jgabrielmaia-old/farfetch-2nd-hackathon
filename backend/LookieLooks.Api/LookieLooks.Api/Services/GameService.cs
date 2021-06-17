@@ -69,19 +69,25 @@ namespace LookieLooks.Api.Services
 
                 foreach (var product in allProducts)
                 {
-                    var attributes = allTypeAttributes.Where(x => x.Type == product.Type).SelectMany(x => x.Attributes.Keys).ToList();
+                    var attributeWithOptions = allTypeAttributes.Where(x => x.Type.ToLower() == product.Type.ToLower()).FirstOrDefault();
+                    var attributes = attributeWithOptions.Attributes.Select(x => x.Key).ToList();
                     foreach (var attribute in attributes)
                     {
                         if (!usedCombinations.Any(g => g.Item1 == product.ProductId && g.Item2 == attribute))
                         {
+                            attributeWithOptions.Attributes.TryGetValue(attribute, out var options);
                             Domain.Game game = new Domain.Game()
                             {
+                                GameId = Guid.NewGuid(),
                                 AttributeName = attribute,
                                 IsBallotOpen = true,
-                                ProductId = product.ProductId
+                                ProductId = product.ProductId,
+                                ImageLinks = product.ImageLinks,
+                                AttributeOptions = options
+
                             };
                             _gameRepository.InsertOne(game);
-                            newGame = game;
+                            return game;
                         }
                     }
                 }
@@ -131,12 +137,27 @@ namespace LookieLooks.Api.Services
                 var domainProduct = new Domain.Product()
                 {
                     Type = product.Type,
-                    ImagesLink = product.ImagesLink,
+                    ImageLinks = product.ImageLinks,
                     ProductId = product.ProductId
                 };
                 domainProducts.Add(domainProduct);
             }
             _productsRepository.InsertManyAsync(domainProducts);
+        }
+
+        public void CreateTypeAttributes(List<TypeAttribute> typeAttributes)
+        {
+            var domainTypeAttributes = new List<Domain.TypeAttribute>();
+            foreach (var attribute in typeAttributes)
+            {
+                var domainTypeAttribute = new Domain.TypeAttribute()
+                {
+                    Type = attribute.Type,
+                    Attributes = attribute.Attributes
+                };
+                domainTypeAttributes.Add(domainTypeAttribute);
+            }
+            _typeAttributeRepository.InsertManyAsync(domainTypeAttributes);
         }
     }
 }

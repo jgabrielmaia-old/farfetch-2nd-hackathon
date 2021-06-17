@@ -12,6 +12,6 @@ namespace LookieLooks.Api.Domain
 
         public string Type { get; set; }
 
-        public IEnumerable<string> ImagesLink { get; set; }
+        public IEnumerable<string> ImageLinks { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LookieLooks.Api.Controllers
 {
-    [Route("api/game")]
+    [Route("api/[controller]")]
     [ApiController]
     public class GameController : ControllerBase
     {
@@ -30,6 +30,13 @@ namespace LookieLooks.Api.Controllers
         public void CreateProducts([FromBody]List<Product> products)
         {
             _gameService.CreateProducts(products);
+        }
+
+        [Route("CreateTypeAttributes")]
+        [HttpPost]
+        public void CreateTypeAttribute([FromBody] List<TypeAttribute> products)
+        {
+            _gameService.CreateTypeAttributes(products);
         }
 
     }
