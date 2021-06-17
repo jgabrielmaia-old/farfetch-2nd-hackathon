@@ -39,7 +39,6 @@ namespace LookieLooks.Api.Services
             {
                 AttributeName = attributeName,
                 ProductId = productId,
-                GameId = Guid.NewGuid(),
                 IsBallotOpen = true
             };
 

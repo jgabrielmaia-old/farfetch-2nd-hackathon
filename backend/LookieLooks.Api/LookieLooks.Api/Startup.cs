@@ -52,6 +52,7 @@ namespace LookieLooks.Api
             services.AddScoped(typeof(IGameService), typeof(GameService));
             services.AddScoped(typeof(IVoteService), typeof(VoteService));
             services.AddScoped(typeof(IImageService), typeof(ImageService));
+            services.AddScoped(typeof(IUserService), typeof(UserService));
 
             services.AddControllers();
         }
