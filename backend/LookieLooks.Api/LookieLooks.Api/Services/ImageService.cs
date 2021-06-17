@@ -9,16 +9,19 @@ namespace LookieLooks.Api.Services
 {
     public class ImageService : IImageService
     {
-        //private readonly IMongoRepository<Domain.Image> _imageRepository;
-        public ImageService(IMongoRepository<Domain.Game> gameRepository, IMongoRepository<Domain.Vote> voteRepository, IMongoRepository<Domain.User> userRepository)
+        private readonly IMongoRepository<Domain.Product> _productRepository;
+        public ImageService(IMongoRepository<Domain.Game> gameRepository,  IMongoRepository<Domain.Product> productRepository)
         {
-            //_imageRepository = imageRepository;
+            _productRepository = productRepository;
         }
-        public Task<IDictionary<int, IEnumerable<string>>> GetImagesAsync(int productId)
+        public Dictionary<int, IEnumerable<string>> GetImagesAsync(int productId)
         {
-            //TODO - get Images from API where productId = productId
-            //IEnumerable<string> ImageList = 
-            throw new NotImplementedException();
+            IEnumerable<string> ImageList = _productRepository.FindById(productId.ToString()).ImagesLink;
+            Dictionary<int, IEnumerable<string>> productImages = new Dictionary<int, IEnumerable<string>>
+            {
+                { productId, ImageList }
+            };
+            return productImages;
         }
     }
 }
