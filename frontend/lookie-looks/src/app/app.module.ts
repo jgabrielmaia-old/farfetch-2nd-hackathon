@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SelectAttributeComponent } from './pages/select-attribute/select-attribute.component';
 import { CurrentGamesComponent } from './pages/current-games/current-games.component';
 import { RankingComponent } from './pages/ranking/ranking.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { RankingComponent } from './pages/ranking/ranking.component';
     ChallengeComponent,
     SelectAttributeComponent,
     CurrentGamesComponent,
-    RankingComponent
+    RankingComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

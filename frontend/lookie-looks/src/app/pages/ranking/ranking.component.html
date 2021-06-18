@@ -1,6 +1,6 @@
 <div class="container p-5" *ngIf="rankings">
-    <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-start align-items-cente" *ngFor="let ranking of rankings">
+    <ul class="list-group align-items-center">
+        <li class="list-group-item d-flex justify-content-start" *ngFor="let ranking of rankings">
             <img src="{{ranking.userUrl}}" class="avatar">
             <p class="p-2">{{ranking.userName}}</p>
             <p class="p-2">|</p>
