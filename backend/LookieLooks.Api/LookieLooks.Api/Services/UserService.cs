@@ -42,7 +42,7 @@ namespace LookieLooks.Api.Services
                 return AddUser(userName);
             } else
             {
-                return selectedUser.Id.ToString();
+                return selectedUser.UserName;
             }
         }
 

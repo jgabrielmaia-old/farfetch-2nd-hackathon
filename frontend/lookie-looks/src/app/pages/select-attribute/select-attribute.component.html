@@ -1,0 +1,27 @@
+<div class="container" *ngIf="attributes">
+    <div class="row">
+        <div class="d-flex flex-wrap" >
+            <div class="p-2" *ngFor="let attribute of attributes">
+                <button 
+                    class="btn btn-light btn-lg btn-block" 
+                    id=button-{{attribute.id}}
+                    (click)="changeCurrentAttribute(attribute.id)">
+                    {{attribute.attribute}}
+                </button>
+            </div>
+        </div>       
+    </div>
+    <hr>
+    <div class="row justify-content-around">
+        <h3>{{attributes[currentAttribute].attribute}}</h3>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-success btn-lg btn-block">Vote</button>
+        </div>
+        <div class="col-md-6">
+            <a routerLink="/challenge"><button class="btn btn-danger btn-lg btn-block">Go back</button></a>
+        </div>     
+    </div>
+</div>
