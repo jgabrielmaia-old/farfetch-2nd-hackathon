@@ -13,11 +13,11 @@ export class CurrentGamesComponent  {
       productName: "Pretty purse",
       votes: [
         {
-          userUrl: "https://store.playstation.com/store/api/chihiro/00_09_000/container/BR/pt/19/UP2135-CUSA04242_00-AV00000000000063/image?w=320&h=320&bg_color=000000&opacity=100&_version=00_09_000",
+          userUrl: "https://randomuser.me/api/portraits/women/21.jpg",
           attributeSelected: "Lorem"
         },
         {
-          userUrl: "https://thispersondoesnotexist.com/image",
+          userUrl: "https://randomuser.me/api/portraits/women/10.jpg",
           attributeSelected: "Lorem"
         },
       ]
@@ -27,7 +27,7 @@ export class CurrentGamesComponent  {
       productName: "Wally Wallet",
       votes: [
         {
-          userUrl: "https://thispersondoesnotexist.com/image",
+          userUrl: "https://randomuser.me/api/portraits/women/13.jpg",
           attributeSelected: "Lorem"
         }
       ]
@@ -37,7 +37,7 @@ export class CurrentGamesComponent  {
       productName: "Bit Bucketeer",
       votes: [
         {
-          userUrl: "https://thispersondoesnotexist.com/image",
+          userUrl: "https://randomuser.me/api/portraits/men/1.jpg",
           attributeSelected: "Lorem"
         }
       ]

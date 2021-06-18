@@ -7,13 +7,15 @@ import { ChallengeComponent } from './pages/challenge/challenge.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SelectAttributeComponent } from './pages/select-attribute/select-attribute.component';
 import { CurrentGamesComponent } from './pages/current-games/current-games.component';
+import { RankingComponent } from './pages/ranking/ranking.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChallengeComponent,
     SelectAttributeComponent,
-    CurrentGamesComponent
+    CurrentGamesComponent,
+    RankingComponent
   ],
   imports: [
     BrowserModule,
