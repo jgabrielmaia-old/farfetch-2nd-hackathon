@@ -5,19 +5,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LookieLooks.Api.Repositories;
+using Microsoft.Extensions.Configuration;
 
 namespace LookieLooks.Api.Services
 {
     public class GameService : IGameService
     {
+        private readonly IConfiguration config;
         private readonly IMongoRepository<Domain.Game> _gameRepository;
         private readonly IMongoRepository<Domain.Vote> _voteRepository;
         private readonly IMongoRepository<Domain.User> _userRepository;
         private readonly IMongoRepository<Domain.Product> _productsRepository;
         private readonly IMongoRepository<Domain.TypeAttribute> _typeAttributeRepository;
-        public GameService(IMongoRepository<Domain.Game> gameRepository, IMongoRepository<Domain.Vote> voteRepository, IMongoRepository<Domain.User> userRepository,
+        public GameService(IMongoRepository<Domain.Game> gameRepository, IConfiguration configuration, IMongoRepository<Domain.Vote> voteRepository, IMongoRepository<Domain.User> userRepository,
             IMongoRepository<Domain.Product> productsRepository, IMongoRepository<Domain.TypeAttribute> typeAttributeRepository)
         {
+            config = configuration;
             _gameRepository = gameRepository;
             _voteRepository = voteRepository;
             _userRepository = userRepository;
@@ -122,10 +125,28 @@ namespace LookieLooks.Api.Services
                 .Select(winningVotes => winningVotes.UserName)
                 .ToList();
 
+            int ammountOfPoints = 0;
+
+            string NumberofVotesToEndGame = config.GetSection("Settings").GetSection("NumberofVotesToEndGame").Value;
+            if (int.TryParse(NumberofVotesToEndGame, out int numbertoEndGame))
+            {
+                if(userIds.Count == numbertoEndGame)
+                {
+                    ammountOfPoints = 3;
+                } else
+                {
+                    ammountOfPoints = 5;
+                }
+            }
+            else
+            {
+                ammountOfPoints = 3;
+            }
+
             foreach (string id in userIds)
             {
                 Domain.User selectedUser = _userRepository.FindOne(user => user.UserName == id);
-                selectedUser.Score += 5;
+                selectedUser.Score += ammountOfPoints;
                 _userRepository.ReplaceOne(selectedUser);
             }
         }
