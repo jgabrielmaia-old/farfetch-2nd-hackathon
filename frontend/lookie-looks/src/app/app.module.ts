@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChallengeComponent } from './pages/challenge/challenge.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SelectAttributeComponent } from './pages/select-attribute/select-attribute.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChallengeComponent
+    ChallengeComponent,
+    SelectAttributeComponent
   ],
   imports: [
     BrowserModule,
