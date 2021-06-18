@@ -17,11 +17,11 @@ namespace LookieLooks.Api.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        public IActionResult Index(string username)
+        [HttpGet]
+        public IActionResult GetUser(string username)
         {
-            string userId = _userService.GetUserId(username);
-            return RedirectToAction("index", "Game", new { userId = userId });
+            string userName = _userService.GetUserId(username);
+            return Ok(userName);
         }
     }
 }

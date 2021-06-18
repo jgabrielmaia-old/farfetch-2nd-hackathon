@@ -23,7 +23,7 @@ namespace LookieLooks.Api.Controllers
             _userService = userService;
         }
 
-        #region testes
+        [Route("GetRandomGame")]
         [HttpPost]
         public void GetRandomGame(string userName)
         {
@@ -44,17 +44,16 @@ namespace LookieLooks.Api.Controllers
             _gameService.CreateTypeAttributes(products);
         }
 
-
-        #endregion
-        //Funções Finais
+        [Route("GetNewGame")]
         [HttpPost]
-        public OkObjectResult getNewGameObject(string userName)
+        public OkObjectResult GetNewGameObject(string userName)
         {
             Domain.Game returnedGame = _gameService.GetRandomGameAsync(userName);
             return Ok(returnedGame.GetResponse());
 
         }
 
+        [Route("SubmitVote")]
         [HttpPost]
         public async Task<OkObjectResult> SubmitVote(Vote vote)
         {
@@ -62,8 +61,9 @@ namespace LookieLooks.Api.Controllers
             return Ok(result);
         }
 
+        [Route("GetLeaderboard")]
         [HttpGet]
-        public async Task<OkObjectResult> getLeaderboard()
+        public async Task<OkObjectResult> GetLeaderboard()
         {
             var result = _userService.getTopUsers();
             return Ok(result);
