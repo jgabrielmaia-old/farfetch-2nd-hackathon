@@ -1,9 +1,5 @@
 ﻿using LookieLooks.Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LookieLooks.Api.Controllers
 {
@@ -17,11 +13,11 @@ namespace LookieLooks.Api.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        public IActionResult Login(string username)
+        [HttpGet]
+        public IActionResult GetUser(string username)
         {
-            string userId = _userService.GetUserId(username);
-            return RedirectToAction("index", "Game", new { userId = userId });
+            string userName = _userService.GetUserId(username);
+            return Ok(userName);
         }
     }
 }

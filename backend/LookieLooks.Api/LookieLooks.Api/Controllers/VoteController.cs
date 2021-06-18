@@ -1,11 +1,6 @@
 ﻿using LookieLooks.Api.Interfaces;
 using LookieLooks.Api.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LookieLooks.Api.Controllers
 {
@@ -19,8 +14,9 @@ namespace LookieLooks.Api.Controllers
             _voteService = voteService;
         }
 
+        [Route("ComputeVote")]
         [HttpPost]
-        public void ComputeVote([FromBody]Vote vote)
+        public void ComputeVoteAsync([FromBody] Vote vote)
         {
             _voteService.ComputeVoteAsync(vote);
         }
