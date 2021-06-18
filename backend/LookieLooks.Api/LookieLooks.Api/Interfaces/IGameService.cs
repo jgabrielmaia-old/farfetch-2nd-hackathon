@@ -23,5 +23,7 @@ namespace LookieLooks.Api.Interfaces
         public void CreateProducts(List<Product> products);
 
         public void CreateTypeAttributes(List<TypeAttribute> typeAttributes);
+
+        public List<Game> GetGamesByUser(string userName);
     }
 }

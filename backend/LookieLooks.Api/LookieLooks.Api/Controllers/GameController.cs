@@ -65,5 +65,13 @@ namespace LookieLooks.Api.Controllers
             var result = _userService.getTopUsers();
             return Ok(result);
         }
+
+        [Route("GetGamesByUser")]
+        [HttpGet]
+        public OkObjectResult GetGamesByUser(string userName)
+        {
+            var result = _gameService.GetGamesByUser(userName);
+            return Ok(result);
+        }
     }
 }

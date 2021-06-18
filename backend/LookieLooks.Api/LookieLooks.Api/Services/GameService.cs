@@ -181,5 +181,31 @@ namespace LookieLooks.Api.Services
             }
             _typeAttributeRepository.InsertManyAsync(domainTypeAttributes);
         }
+
+        public List<Game> GetGamesByUser(string userName)
+        {
+            var userVotes = _voteRepository.FilterBy(x => x.UserName == userName).ToList();
+            var userGames = _gameRepository.FilterBy(x => userVotes.Select(y => y.GameId).Contains(x.GameId) && x.IsBallotOpen).ToList();
+            var games = new List<Game>();
+
+            foreach(var userGame in userGames)
+            {
+                games.Add(new Game
+                {
+                    GameId = userGame.GameId,
+                    ProductId = userGame.ProductId,
+                    AttributeId = userGame.AttributeName,
+                    Votes = userVotes.Where(x => x.GameId == userGame.GameId).Select(x => new Vote { 
+                        GameId = x.GameId, 
+                        SelectedOption = x.SelectedOption, 
+                        UserName = x.UserName
+                    }).ToList(),
+                    ImageLinks = userGame.ImageLinks,
+                    AttributeOptions = userGame.AttributeOptions
+
+                });
+            }
+            return games;
+        }
     }
 }
