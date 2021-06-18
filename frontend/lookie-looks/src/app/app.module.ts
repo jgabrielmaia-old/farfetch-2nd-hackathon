@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { ChallengeComponent } from './pages/challenge/challenge.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SelectAttributeComponent } from './pages/select-attribute/select-attribute.component';
+import { CurrentGamesComponent } from './pages/current-games/current-games.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChallengeComponent,
-    SelectAttributeComponent
+    SelectAttributeComponent,
+    CurrentGamesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,23 @@
+<div class="container-fluid" *ngIf="games">
+    <div class="row ">
+        <div class="card-deck p-5">
+            <div class="card thumb-post" *ngFor="let game of games">
+                <img class="card-img-top thumb-img" src="{{game.productUrl}}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{game.productName}}</h5>
+                    <div class="row align-items-center">
+                        <div class="p-2"  *ngFor="let vote of game.votes">
+                            <img src="{{vote.userUrl}}" class="avatar">
+                            <p>
+                                {{vote.attributeSelected}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+            </div>
+          </div>
+    </div>
+</div>
