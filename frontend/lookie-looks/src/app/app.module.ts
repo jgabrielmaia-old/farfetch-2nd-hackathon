@@ -9,6 +9,7 @@ import { SelectAttributeComponent } from './pages/select-attribute/select-attrib
 import { CurrentGamesComponent } from './pages/current-games/current-games.component';
 import { RankingComponent } from './pages/ranking/ranking.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
     SelectAttributeComponent,
     CurrentGamesComponent,
     RankingComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
