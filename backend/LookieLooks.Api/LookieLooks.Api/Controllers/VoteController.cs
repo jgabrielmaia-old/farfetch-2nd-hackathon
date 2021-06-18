@@ -19,6 +19,7 @@ namespace LookieLooks.Api.Controllers
             _voteService = voteService;
         }
 
+        [Route("ComputeVote")]
         [HttpPost]
         public void ComputeVoteAsync([FromBody]Vote vote)
         {
